@@ -58,18 +58,32 @@
      </head>
      
      <body>
-          <span class="header">Welcome to Entry Search Product Page</span>
+	      <!--Welcome Heading -->
+          <span class="header"> Welcome to Entry Search Product Page </span>
+	     
+	     <!-- Search Form for product by Code or BY Name -->
+	     
            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> ">
                  <input type="text" name="search" placeholder="Search.. Enter Product Name or Code">
                  <input type="submit" value="Search">
            </form>
+	     
+	     <!-- php code for getting that product -->
+	     <!-- two type MYSQL is shown below first MYSQLi and Second one is MYQSL PDO -->
+	     <!--  but i used as local host in Linux MYSQL PDO -->
+	     
+	     <!--
+                   DATABSE NAME: PRODUCTS
+                   TABLE :   product (code int , name varchar(40), price double(10,3), gst float(4,2) quantity int, Total_price double(40,3));
+                   
+              -->
       <?php
               $inv=" ";
               $de=1;
               if($_SERVER["REQUEST_METHOD"] == "POST"){
                                  $servername = "localhost";
-                                 $username = "root";
-                                 $password = "hello123";
+                                 $username = "pints";
+                                 $password = "password";
                                  $dbname= "PRODUCTS";
 
                                  //for MYSQLi DATA base Connection
@@ -104,7 +118,7 @@
                                        if($conn){
                                                  $sd=$_POST['search'];
                                                  $stmt=$conn->query("select code,name,Total_price from product where code='$sd'OR name='$sd'");
-                                                 
+                                                 // data fetch from data base
                                                  while($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                            $GLOBALS['de']=0;
                                            echo "<table><tr><th>Code</th><th>Name</th><th>Total price</th></tr>";
@@ -121,9 +135,12 @@
                                       echo $sql . "<br>" . $e->getMessage();
                                     }
                                   $conn=null;
+		      // Warning if input is not Valid 
                                echo "$inv";
                            }
       ?>
+	     
+	     <!-- button for go back to product page -->
          <div align="center"><a href="product.php" target="_self">
 			        <button class="button" >
 					     Go Back
